@@ -31,4 +31,9 @@ public class Director extends Manager {
             return super.getSalaryNet();
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " Dept:" + department;
+    }
 }
