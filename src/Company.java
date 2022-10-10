@@ -16,11 +16,32 @@ public class Company {
     public void updateSalary(String id, Double newSalary){
         employees.get(id).setSalaryGross(newSalary);
     }
+    
+                                                        // 1.4 remove an employee
+    public String removeEmployee(String id){ 
+        boolean containsKey= employees.containsKey(id);
 
+        if(containsKey){
+            employees.remove(id);
+            return "Employee" + id + " was successfully removed.";
+        }
+        else { return "";}
+    } //exception ADD LATER
+                                                        // 1.5 retrieve a string from an employee 
     public String retrieve(String id){
         return employees.get(id).toString();
     }
 
+                                                        // 1.6 retrieve a string from all employees
+    public String retrieveAll() { 
+        String result = "All registered employees:\n";
+        for (var employee : employees.values()) {
+            result += employee.toString() + "\n";
+        }
+
+        return result;
+    }
+                                                        // 1.7 retrieve total expenses
     public double getGrossSumm() {
         double summ = 0;
         for(var key: employees.keySet()) {
@@ -36,15 +57,4 @@ public class Company {
         }
         return summ;
     }
-
-
-    public String removeEmployee(String id){  //1.4
-        boolean containsKey= employees.containsKey(id);
-
-        if(containsKey){
-            employees.remove(id);
-            return "Employee" + id + " was successfully removed.";
-        }
-        else { return "";}
-    } //exception ADD LATER
 }
