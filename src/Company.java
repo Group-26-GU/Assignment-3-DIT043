@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Company {
     private HashMap<String, Employee> employees = new HashMap<>();
@@ -57,4 +59,14 @@ public class Company {
         }
         return summ;
     }
-}
+
+    public String sortBySalary() {
+        String result = "Employees sorted by salary (ascending order):\n";
+        List<Employee> sortedEmployees = UtilFunc.sortBySalary(new ArrayList<Employee>(employees.values()));
+        for (var employee : sortedEmployees) {
+            result += employee.toString() + "\n";
+        }
+        return result;
+}}
+    
+

@@ -1,4 +1,5 @@
 import java.math.RoundingMode;
+import java.util.List;
 import java.math.BigDecimal;
 
 public class UtilFunc {
@@ -30,5 +31,20 @@ public class UtilFunc {
         } else {
             return salaryGross + 1000;
         }
+    }
+
+    public static List<Employee> sortBySalary(List<Employee> values) {
+        List<Employee> employees = values;
+        employees.sort((e1, e2) -> {
+            if (e1.getSalaryGross() > e2.getSalaryGross()) {
+                return 1;
+            } else if (e1.getSalaryGross() < e2.getSalaryGross()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        return employees;
     }
 }
