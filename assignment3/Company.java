@@ -1,10 +1,11 @@
 package assignment3;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Company {
-    private HashMap<String, Employee> employees = new HashMap<>();
+    private HashMap<String, Employee> employees = new LinkedHashMap<>();
 
     public String createEmployee(String id, String name, Double salaryGross){
         employees.put(id, new Employee(id, name, salaryGross));
@@ -75,44 +76,44 @@ public class Company {
         return summ;
     }
 
-    public String sortBySalary() {
-        String result = "Employees sorted by salary (ascending order):\n";
+    public String printSortedEmployees() {
+        String result = "Employees sorted by gross salary (ascending order):\n";
         List<Employee> sortedEmployees = UtilFunc.sortBySalary(new ArrayList<Employee>(employees.values()));
         for (var employee : sortedEmployees) {
             result += employee.toString() + "\n";
         }
         return result;
-}
+    }
     
 
     public String updatedSuccesfully(String id){
         return "Employee " + id + " was updated successfully";
     }
-    public String updateName(String id, String newName){
+    public String updateEmployeeName(String id, String newName){
         employees.get(id).setName(newName);
         return updatedSuccesfully(id);
     }
 
-    public String updateSalary(String id, Double newSalary){
+    public String updateGrossSalary(String id, Double newSalary){
         employees.get(id).setSalaryGross(newSalary);
         return updatedSuccesfully(id);
     }
 
-    public String updateDegree(String id, String newDegree){
+    public String updateManagerDegree(String id, String newDegree){
         if (employees.get(id) instanceof Manager){
             ((Manager) employees.get(id)).setDegree(newDegree);
             return updatedSuccesfully(id);
         }
         else return "";
     }
-    public String updateDepartment(String id, String newDeparment){
+    public String updateDirectorDept(String id, String newDeparment){
         if (employees.get(id) instanceof Director){
             ((Director) employees.get(id)).setDepartment(newDeparment);
             return updatedSuccesfully(id);
         }
         else return "";
     }
-    public String updateGpa( String id, int gpa){
+    public String updateInternGPA( String id, int gpa){
         if (employees.get(id) instanceof Intern){
             ((Intern) employees.get(id)).setGpa(gpa);
             return updatedSuccesfully(id);

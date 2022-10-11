@@ -19,7 +19,13 @@ public class Director extends Manager {
 
     @Override
     public void setSalaryGross(double salaryGross) {
-        super.setSalaryGrossForce(UtilFunc.managerBonus(salaryGross, super.getDegree()) + bonus);
+        super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), super.getDegree()) + bonus, super.getBasicSalary());
+    }
+
+    @Override
+    public void setDegree(String degree) {
+        super.setDegree(degree);
+        super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), degree) + bonus, super.getBasicSalary());
     }
 
     @Override
