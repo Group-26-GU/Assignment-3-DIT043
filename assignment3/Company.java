@@ -1,10 +1,12 @@
 package assignment3;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Company {
     private HashMap<String, Employee> employees = new HashMap<>();
 
-    public String registerEmployee(String id, String name, Double salaryGross){
+    public String createEmployee(String id, String name, Double salaryGross){
         employees.put(id, new Employee(id, name, salaryGross));
 
         return "Employee " + id + " was registered successfully.";
@@ -32,14 +34,6 @@ public class Company {
         return "Employee " + id + " was registered successfully.";
     }
 
-    public void updateName(String id, String newName){
-        employees.get(id).setName(newName);
-    }
-
-    public void updateSalary(String id, Double newSalary){
-        employees.get(id).setSalaryGross(newSalary);
-    }
-    
                                                         // 1.4 remove an employee
     public String removeEmployee(String id){ 
         boolean containsKey= employees.containsKey(id);
