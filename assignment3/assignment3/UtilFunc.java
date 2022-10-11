@@ -1,14 +1,11 @@
 package assignment3;
-import java.math.RoundingMode;
 import java.util.List;
-import java.math.BigDecimal;
 
 public class UtilFunc {
     public static double trunc(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.FLOOR);
-        return bd.doubleValue();
+        int scale = (int) Math.pow(10, places);
+        return (double) (int) (value * scale) / scale;
     }
 
     public static double managerBonus(double salaryGross, String degree) {
