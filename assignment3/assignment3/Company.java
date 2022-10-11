@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Map;
 
 public class Company {
     private HashMap<String, Employee> employees = new LinkedHashMap<>();
@@ -123,5 +125,31 @@ public class Company {
 
     public double getNetSalary(String id) {
         return employees.get(id).getSalaryNet();
+    }
+
+    public Map<String, Integer> mapEachDegree(){
+        Map<String, Integer> result = new HashMap<>();
+        int numBsc = 0, numMsc = 0, numPhd = 0;
+        String line1="", line2="", line3="";
+        for( var employee: employees.values()){
+            if (employee instanceof Manager){
+                if(Objects.equals(((Manager) employee).getDegree(), "BSc")){
+                    numBsc += 1;
+                } else if (Objects.equals(((Manager) employee).getDegree(), "MSc")) {
+                    numMsc += 1;
+                } else if (Objects.equals(((Manager) employee).getDegree(), "PhD")) {
+                    numPhd += 1;
+                }
+            }
+        }
+        // line1 = (numBsc==0 ? "BSc: => " + numBsc : null);
+        // line2 = (numMsc==0 ? "MSc: => " + numMsc : null);
+        // line1 = (numPhd==0 ? "PhD: => " + numPhd : null);
+        if(numBsc > 0) result.put("BSc", numBsc);
+        if(numMsc > 0) result.put("MSc", numMsc);
+        if(numPhd > 0) result.put("PhD", numPhd);
+
+        // return "Academic background of employees: /n " + line1 + "/n" + line2+ "/n" + line3 + "/n";
+        return result;
     }
 }

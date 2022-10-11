@@ -1,5 +1,3 @@
-package employeetests;
-
 import assignment3.Company;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +8,7 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class Epic1US5and6Test {
+public class Epic1US7and8Test {
 
     private static final String EOL = System.lineSeparator();
     private Company facade;
@@ -41,30 +39,23 @@ public class Epic1US5and6Test {
     }
 
     @Test
-    public void shouldPrintEmployee() throws Exception {
-        String blancaMessage = "PhD Blanca's gross salary is 65750.00 SEK per month. Dept: Human Resources";
-        String angelMessage  = "Angel's gross salary is 28500.10 SEK per month. GPA: 7";
-        String prayMessage   = "BSc Pray Tell's gross salary is 27500.27 SEK per month.";
-        String rickyMessage  = "Ricky's gross salary is 23500.00 SEK per month.";
-
-        assertEquals(blancaMessage, facade.printEmployee("Emp2"));
-        assertEquals(angelMessage , facade.printEmployee("Emp5"));
-        assertEquals(prayMessage  , facade.printEmployee("Emp3"));
-        assertEquals(rickyMessage , facade.printEmployee("Emp7"));
+    public void shouldGetTotalNetSalary() throws Exception {
+        double expectedTotal = 198340.82;
+        assertEquals(expectedTotal, facade.getTotalNetSalary());
     }
 
     @Test
-    public void shouldPrintAllEmployees() throws Exception {
-        String expectedPrint = "All registered employees:" + EOL +
-                "MSc Elektra's gross salary is 47000.60 SEK per month. Dept: Business" + EOL +
-                "PhD Blanca's gross salary is 65750.00 SEK per month. Dept: Human Resources" + EOL +
-                "BSc Pray Tell's gross salary is 27500.27 SEK per month." + EOL +
-                "Lulu's gross salary is 21000.00 SEK per month. GPA: 9"   + EOL +
-                "Angel's gross salary is 28500.10 SEK per month. GPA: 7"  + EOL +
+    public void shouldGetSortedEmployees() throws Exception {
+        String expectedPrint = "Employees sorted by gross salary (ascending order):" + EOL +
                 "Candy's gross salary is 0.00 SEK per month. GPA: 4"      + EOL +
+                "Lulu's gross salary is 21000.00 SEK per month. GPA: 9"   + EOL +
+                "Damon's gross salary is 22100.00 SEK per month."         + EOL +
                 "Ricky's gross salary is 23500.00 SEK per month."         + EOL +
-                "Damon's gross salary is 22100.00 SEK per month."         + EOL;
+                "BSc Pray Tell's gross salary is 27500.27 SEK per month." + EOL +
+                "Angel's gross salary is 28500.10 SEK per month. GPA: 7"  + EOL +
+                "MSc Elektra's gross salary is 47000.60 SEK per month. Dept: Business" + EOL +
+                "PhD Blanca's gross salary is 65750.00 SEK per month. Dept: Human Resources" + EOL;
 
-        assertEquals(expectedPrint, facade.printAllEmployees());
+        assertEquals(expectedPrint, facade.printSortedEmployees());
     }
 }
