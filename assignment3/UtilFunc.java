@@ -1,3 +1,4 @@
+package assignment3;
 import java.math.RoundingMode;
 import java.util.List;
 import java.math.BigDecimal;
@@ -6,17 +7,17 @@ public class UtilFunc {
     public static double trunc(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
         BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.DOWN);
+        bd = bd.setScale(places, RoundingMode.FLOOR);
         return bd.doubleValue();
     }
 
     public static double managerBonus(double salaryGross, String degree) {
         switch (degree) {
-            case "BSc.":
+            case "BSc":
                 return trunc(salaryGross * 1.1, 2);
-            case "MSc.":
+            case "MSc":
                 return trunc(salaryGross * 1.2, 2);
-            case "PhD.":
+            case "PhD":
                 return trunc(salaryGross * 1.35, 2);
             default:
                 return salaryGross;

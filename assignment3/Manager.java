@@ -1,3 +1,4 @@
+package assignment3;
 public class Manager extends Employee {
     private String degree;
     private double basicSalary;

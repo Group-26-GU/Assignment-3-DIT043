@@ -1,3 +1,4 @@
+package assignment3;
 public class Director extends Manager {
     private String department;
     private final double bonus = 5000;
@@ -34,6 +35,6 @@ public class Director extends Manager {
 
     @Override
     public String toString() {
-        return super.toString() + " Dept:" + department;
+        return super.toString() + " Dept: " + department;
     }
 }
