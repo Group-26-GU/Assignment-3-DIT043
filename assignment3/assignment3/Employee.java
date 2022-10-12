@@ -1,3 +1,4 @@
+package assignment3;
 public class Employee {
     private String name;
     private final String id;
@@ -49,7 +50,8 @@ public class Employee {
 
     @Override
     public String toString() {
-        return name + "'s gross salary is " + salaryGross + " SEK per month.";
+        String salaryGrossString = String.format("%.2f", salaryGross);
+        return name + "'s gross salary is " + salaryGrossString + " SEK per month.";
     }
 
     @Override

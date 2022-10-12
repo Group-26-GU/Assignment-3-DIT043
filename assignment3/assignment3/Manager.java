@@ -1,3 +1,5 @@
+package assignment3;
+
 public class Manager extends Employee {
     private String degree;
     private double basicSalary;
@@ -22,9 +24,9 @@ public class Manager extends Employee {
         super.setSalaryGross(UtilFunc.managerBonus(basicSalary, degree));
     }
 
-    public void setSalaryGrossForce(double salaryGross) {
+    public void setSalaryGrossForce(double salaryGross, double basicSalary) {
         super.setSalaryGross(salaryGross);
-        this.basicSalary = salaryGross;
+        this.basicSalary = basicSalary;
     }
 
     @Override
