@@ -121,12 +121,22 @@ public class Company {
         return updatedSuccesfully(id);
     }
 
-    public String updateManagerDegree(String id, String newDegree){
-        if (employees.get(id) instanceof Manager){
+    public String updateManagerDegree(String id, String newDegree)throws DefaultException{
+        if(newDegree.isBlank() || (!newDegree.equals("BSc") && !newDegree.equals("MSc") && !newDegree.equals("PhD"))){
+            throw new DefaultException("Degree must be one of the options: BSc, MSc or PhD.");
+        }
+          if(employees.get(id) instanceof Manager){
+                ((Manager) employees.get(id)).setDegree(newDegree);
+                return updatedSuccesfully(id);
+          }
+          else{return "";}
+      
+       
+        /*if (employees.get(id) instanceof Manager){
             ((Manager) employees.get(id)).setDegree(newDegree);
             return updatedSuccesfully(id);
         }
-        else return "";
+        else return "";*/
     }
     public String updateDirectorDept(String id, String newDeparment){
         if (employees.get(id) instanceof Director){
@@ -177,14 +187,20 @@ public class Company {
         }
     }
 
-    public String promoteToManager(String id, String degree){
-        if(employees.containsKey(id)){
-            Employee promotedEmployee = employees.get(id);
-            Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
-            employees.put(id, manager);
-            return id + " promoted successfully to Manager.";
+    public String promoteToManager(String id, String degree)throws DefaultException{
+        try {   if(employees.containsKey(id)){
+                Employee promotedEmployee = employees.get(id);
+                Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
+                employees.put(id, manager);
+                return id + " promoted successfully to Manager.";
         }
         else { return null;} 
+            
+        } catch (DefaultException e) {
+            throw new DefaultException(e.getMessage());
+            // TODO: handle exception
+        }
+
     }
 
     public String promoteToIntern(String id, int gpa){
