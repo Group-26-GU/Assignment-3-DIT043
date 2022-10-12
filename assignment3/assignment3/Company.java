@@ -9,47 +9,69 @@ import java.util.Map;
 public class Company {
     private HashMap<String, Employee> employees = new LinkedHashMap<>();
 
-    public String createEmployee(String id, String name, Double salaryGross){
-        employees.put(id, new Employee(id, name, salaryGross));
+    public String createEmployee(String id, String name, Double salaryGross) throws DefaultException {
+        if(employees.containsKey(id)) {
+            throw new DefaultException("Cannot register. ID " + id + " is already registered.");
+        } else {
+            employees.put(id, new Employee(id, name, salaryGross));
 
-        return "Employee " + id + " was registered successfully.";
+            return "Employee " + id + " was registered successfully.";
+        }
     }
 
                                                         // overwritten for subclases
                                                         // Manager
-    public String createEmployee(String id, String name, Double salaryGross, String degree){
-        employees.put(id, new Manager(id, name, salaryGross, degree));
+    public String createEmployee(String id, String name, Double salaryGross, String degree) throws DefaultException {
+        if(employees.containsKey(id)) {
+            return "Cannot register. ID " + id + " is already registered.";
+        } else {
+            employees.put(id, new Manager(id, name, salaryGross, degree));
 
-        return "Employee " + id + " was registered successfully.";
+            return "Employee " + id + " was registered successfully.";
+        }
     }
     
                                                             // Director
-    public String createEmployee(String id, String name, Double salaryGross, String degree, String department){
-        employees.put(id, new Director(id, name, salaryGross, degree, department));
+    public String createEmployee(String id, String name, Double salaryGross, String degree, String department) throws DefaultException {
+        if(employees.containsKey(id)) {
+            return "Cannot register. ID " + id + " is already registered.";
+        } else {
+            employees.put(id, new Director(id, name, salaryGross, degree, department));
 
-        return "Employee " + id + " was registered successfully.";
+            return "Employee " + id + " was registered successfully.";
+        }
     }
         
                                                                 // Intern
-    public String createEmployee(String id, String name, Double salaryGross, int gpa){
-        employees.put(id, new Intern(id, name, salaryGross, gpa));
+    public String createEmployee(String id, String name, Double salaryGross, int gpa) throws DefaultException {
+        if(employees.containsKey(id)) {
+            return "Cannot register. ID " + id + " is already registered.";
+        } else {
+            employees.put(id, new Intern(id, name, salaryGross, gpa));
 
-        return "Employee " + id + " was registered successfully.";
+            return "Employee " + id + " was registered successfully.";
+        }
     }
 
                                                         // 1.4 remove an employee
-    public String removeEmployee(String id){ 
+    public String removeEmployee(String id) throws DefaultException { 
         boolean containsKey= employees.containsKey(id);
 
         if(containsKey){
             employees.remove(id);
             return "Employee " + id + " was successfully removed.";
         }
-        else { return "";}
-    } //exception ADD LATER
+        else { 
+            throw new DefaultException("Employee "+ id +" was not registered yet.");
+        }
+    }
                                                         // 1.5 retrieve a string from an employee 
-    public String printEmployee(String id){
-        return employees.get(id).toString();
+    public String printEmployee(String id) throws DefaultException {
+        if(employees.containsKey(id)) {
+            return employees.get(id).toString();
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
+        }
     }
 
                                                         // 1.6 retrieve a string from all employees
@@ -103,48 +125,76 @@ public class Company {
     public String updatedSuccesfully(String id){
         return "Employee " + id + " was updated successfully";
     }
-    public String updateEmployeeName(String id, String newName) throws CannotBeBlankException {
-        try {
-            employees.get(id).setName(newName);
-        } catch (CannotBeBlankException e) {
-            throw new CannotBeBlankException("Name");
+    public String updateEmployeeName(String id, String newName) throws CannotBeBlankException, DefaultException {
+        if(employees.containsKey(id)) {
+            try {
+                employees.get(id).setName(newName);
+            } catch (CannotBeBlankException e) {
+                throw new CannotBeBlankException("Name");
+            }
+            return updatedSuccesfully(id);
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        return updatedSuccesfully(id);
     }
 
     public String updateGrossSalary(String id, Double newSalary) throws DefaultException {
-        try {
-            employees.get(id).setSalaryGross(newSalary);
-        } catch (DefaultException e) {
-            throw new DefaultException(e.getMessage());
+        if(employees.containsKey(id)) {
+            try {
+                employees.get(id).setSalaryGross(newSalary);
+            } catch (DefaultException e) {
+                throw new DefaultException(e.getMessage());
+            }
+            return updatedSuccesfully(id);
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        return updatedSuccesfully(id);
     }
 
-    public String updateManagerDegree(String id, String newDegree){
-        if (employees.get(id) instanceof Manager){
-            ((Manager) employees.get(id)).setDegree(newDegree);
-            return updatedSuccesfully(id);
+    public String updateManagerDegree(String id, String newDegree) throws DefaultException {
+        if(employees.containsKey(id)) {
+            if (employees.get(id) instanceof Manager){
+                ((Manager) employees.get(id)).setDegree(newDegree);
+                return updatedSuccesfully(id);
+            }
+            else return "";
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        else return "";
     }
-    public String updateDirectorDept(String id, String newDeparment){
-        if (employees.get(id) instanceof Director){
-            ((Director) employees.get(id)).setDepartment(newDeparment);
-            return updatedSuccesfully(id);
+    public String updateDirectorDept(String id, String newDeparment) throws DefaultException {
+        if(employees.containsKey(id)) {
+            if (employees.get(id) instanceof Director){
+                ((Director) employees.get(id)).setDepartment(newDeparment);
+                return updatedSuccesfully(id);
+            }
+            else return "";
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        else return "";
     }
-    public String updateInternGPA( String id, int gpa){
-        if (employees.get(id) instanceof Intern){
-            ((Intern) employees.get(id)).setGpa(gpa);
-            return updatedSuccesfully(id);
+    public String updateInternGPA( String id, int gpa) throws DefaultException {
+        if(employees.containsKey(id)) {
+            if (employees.get(id) instanceof Intern){
+                ((Intern) employees.get(id)).setGpa(gpa);
+                return updatedSuccesfully(id);
+            }
+            else return "";
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        else return "";
     }
 
-    public double getNetSalary(String id) {
-        return employees.get(id).getSalaryNet();
+    public double getNetSalary(String id) throws DefaultException {
+        if(employees.containsKey(id)) {
+            if(employees.containsKey(id)) {
+                return employees.get(id).getSalaryNet();
+            } else {
+                throw new DefaultException("Employee " + id + " was not registered yet.");
+            }
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
+        }
     }
 
     public Map<String, Integer> mapEachDegree(){
@@ -177,14 +227,14 @@ public class Company {
         }
     }
 
-    public String promoteToManager(String id, String degree){
+    public String promoteToManager(String id, String degree) throws DefaultException {
         if(employees.containsKey(id)){
             Employee promotedEmployee = employees.get(id);
             Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
             employees.put(id, manager);
             return id + " promoted successfully to Manager.";
         }
-        else { return null;} 
+        else { throw new DefaultException("Employee " + id + " was not registered yet."); }
     }
 
     public String promoteToIntern(String id, int gpa){
@@ -194,7 +244,7 @@ public class Company {
             employees.put(id, intern);
             return id + " promoted successfully to Intern.";
         }
-        else { return null;} 
+        else { throw new DefaultException("Employee " + id + " was not registered yet."); } 
     }
 
     public String promoteToDirector(String id, String degree, String department){
@@ -204,6 +254,6 @@ public class Company {
             employees.put(id, director);
             return id + " promoted successfully to Director.";
         }
-        else { return null;} 
+        else { throw new DefaultException("Employee " + id + " was not registered yet."); } 
     }
 }
