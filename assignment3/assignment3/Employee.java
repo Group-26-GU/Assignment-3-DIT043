@@ -1,3 +1,4 @@
+package assignment3;
 public class Employee {
     private String name;
     private final String id;
@@ -43,9 +44,14 @@ public class Employee {
         return UtilFunc.trunc(salaryGross * 0.9, 2);
     }
 
+    public double getBasicSalary() {
+        return salaryGross;
+    }
+
     @Override
     public String toString() {
-        return name + "'s gross salary is " + salaryGross + " SEK per month.";
+        String salaryGrossString = String.format("%.2f", salaryGross);
+        return name + "'s gross salary is " + salaryGrossString + " SEK per month.";
     }
 
     @Override
@@ -61,4 +67,6 @@ public class Employee {
         final Employee other = (Employee) obj;
         return id == other.id;
     }
+
+    
 }

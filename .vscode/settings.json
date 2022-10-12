@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        ".",
+        "assignment3",
+        "src",
+        "employeetests/employeetests",
+        "employeetests"
+    ]
+}

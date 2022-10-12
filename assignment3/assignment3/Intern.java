@@ -1,3 +1,4 @@
+package assignment3;
 public class Intern extends Employee {
     private int gpa;
     private double basicSalary;
@@ -15,6 +16,10 @@ public class Intern extends Employee {
     public void setGpa(int gpa) {
         this.gpa = gpa;
         super.setSalaryGross(UtilFunc.internSalary(basicSalary, gpa));
+    }
+
+    public double getBasicSalary() {
+        return basicSalary;
     }
 
     @Override

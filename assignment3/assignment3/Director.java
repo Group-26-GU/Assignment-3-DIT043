@@ -1,3 +1,4 @@
+package assignment3;
 public class Director extends Manager {
     private String department;
     private final double bonus = 5000;
@@ -18,7 +19,13 @@ public class Director extends Manager {
 
     @Override
     public void setSalaryGross(double salaryGross) {
-        super.setSalaryGrossForce(UtilFunc.managerBonus(salaryGross, super.getDegree()) + bonus);
+        super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), super.getDegree()) + bonus, super.getBasicSalary());
+    }
+
+    @Override
+    public void setDegree(String degree) {
+        super.setDegree(degree);
+        super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), degree) + bonus, super.getBasicSalary());
     }
 
     @Override
@@ -34,6 +41,6 @@ public class Director extends Manager {
 
     @Override
     public String toString() {
-        return super.toString() + " Dept:" + department;
+        return super.toString() + " Dept: " + department;
     }
 }
