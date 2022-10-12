@@ -53,13 +53,17 @@ public class Company {
     }
 
                                                         // 1.6 retrieve a string from all employees
-    public String printAllEmployees() { 
-        String result = "All registered employees:\n";
-        for (var employee : employees.values()) {
-            result += employee.toString() + "\n";
-        }
+    public String printAllEmployees() {
+        if(employees.isEmpty()){
+            throw new NoEmployeesException();
+        } else {
+            String result = "All registered employees:\n";
+            for (var employee : employees.values()) {
+                result += employee.toString() + "\n";
+            }
 
-        return result;
+            return result;
+        }
     }
                                                         // 1.7 retrieve total expenses
     public double getGrossSumm() {
@@ -71,33 +75,49 @@ public class Company {
     }
 
     public  double getTotalNetSalary() {
-        double summ = 0;
-        for(var key: employees.keySet()) {
-            summ += employees.get(key).getSalaryNet();
+        if(employees.isEmpty()){
+            throw new NoEmployeesException();
+        } else {
+            double summ = 0;
+            for(var key: employees.keySet()) {
+                summ += employees.get(key).getSalaryNet();
+            }
+            return summ;
         }
-        return summ;
     }
 
     public String printSortedEmployees() {
-        String result = "Employees sorted by gross salary (ascending order):\n";
-        List<Employee> sortedEmployees = UtilFunc.sortBySalary(new ArrayList<Employee>(employees.values()));
-        for (var employee : sortedEmployees) {
-            result += employee.toString() + "\n";
+        if(employees.isEmpty()){
+            throw new NoEmployeesException();
+        } else {
+            String result = "Employees sorted by gross salary (ascending order):\n";
+            List<Employee> sortedEmployees = UtilFunc.sortBySalary(new ArrayList<Employee>(employees.values()));
+            for (var employee : sortedEmployees) {
+                result += employee.toString() + "\n";
+            }
+            return result;
         }
-        return result;
     }
     
 
     public String updatedSuccesfully(String id){
         return "Employee " + id + " was updated successfully";
     }
-    public String updateEmployeeName(String id, String newName){
-        employees.get(id).setName(newName);
+    public String updateEmployeeName(String id, String newName) throws CannotBeBlankException {
+        try {
+            employees.get(id).setName(newName);
+        } catch (CannotBeBlankException e) {
+            throw new CannotBeBlankException("Name");
+        }
         return updatedSuccesfully(id);
     }
 
-    public String updateGrossSalary(String id, Double newSalary){
-        employees.get(id).setSalaryGross(newSalary);
+    public String updateGrossSalary(String id, Double newSalary) throws DefaultException {
+        try {
+            employees.get(id).setSalaryGross(newSalary);
+        } catch (DefaultException e) {
+            throw new DefaultException(e.getMessage());
+        }
         return updatedSuccesfully(id);
     }
 
@@ -128,29 +148,33 @@ public class Company {
     }
 
     public Map<String, Integer> mapEachDegree(){
-        Map<String, Integer> result = new HashMap<>();
-        int numBsc = 0, numMsc = 0, numPhd = 0;
-        // String line1="", line2="", line3="";
-        for( var employee: employees.values()){
-            if (employee instanceof Manager){
-                if(Objects.equals(((Manager) employee).getDegree(), "BSc")){
-                    numBsc += 1;
-                } else if (Objects.equals(((Manager) employee).getDegree(), "MSc")) {
-                    numMsc += 1;
-                } else if (Objects.equals(((Manager) employee).getDegree(), "PhD")) {
-                    numPhd += 1;
+        if(employees.isEmpty()){
+            throw new NoEmployeesException();
+        } else {
+            Map<String, Integer> result = new HashMap<>();
+            int numBsc = 0, numMsc = 0, numPhd = 0;
+            // String line1="", line2="", line3="";
+            for( var employee: employees.values()){
+                if (employee instanceof Manager){
+                    if(Objects.equals(((Manager) employee).getDegree(), "BSc")){
+                        numBsc += 1;
+                    } else if (Objects.equals(((Manager) employee).getDegree(), "MSc")) {
+                        numMsc += 1;
+                    } else if (Objects.equals(((Manager) employee).getDegree(), "PhD")) {
+                        numPhd += 1;
+                    }
                 }
             }
+            // line1 = (numBsc==0 ? "BSc: => " + numBsc : null);
+            // line2 = (numMsc==0 ? "MSc: => " + numMsc : null);
+            // line1 = (numPhd==0 ? "PhD: => " + numPhd : null);
+            if(numBsc > 0) result.put("BSc", numBsc);
+            if(numMsc > 0) result.put("MSc", numMsc);
+            if(numPhd > 0) result.put("PhD", numPhd);
+    
+            // return "Academic background of employees: /n " + line1 + "/n" + line2+ "/n" + line3 + "/n";
+            return result;
         }
-        // line1 = (numBsc==0 ? "BSc: => " + numBsc : null);
-        // line2 = (numMsc==0 ? "MSc: => " + numMsc : null);
-        // line1 = (numPhd==0 ? "PhD: => " + numPhd : null);
-        if(numBsc > 0) result.put("BSc", numBsc);
-        if(numMsc > 0) result.put("MSc", numMsc);
-        if(numPhd > 0) result.put("PhD", numPhd);
-
-        // return "Academic background of employees: /n " + line1 + "/n" + line2+ "/n" + line3 + "/n";
-        return result;
     }
 
     public String promoteToManager(String id, String degree){
