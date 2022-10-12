@@ -57,4 +57,42 @@ public class Company {
         }
         return summ;
     }
+
+   public String promoteToManager(String id, String degree){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
+            employees.put(id, manager);
+            return "Employee " + id + " was promoted to manager successfully.";
+        }
+        else { return null;} 
+    }
+
+    public String promoteToIntern(String id, int gpa){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Intern intern = new Intern(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), gpa);
+            employees.put(id, intern);
+            return "Employee " + id + " was promoted to intern successfully.";
+        }
+        else { return null;} 
+    }
+
+    public String promoteToDirector(String id, String degree, String department){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Director director = new Director(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree, department);
+            employees.put(id, director);
+            return "Employee " + id + " was promoted to director successfully.";
+        }
+        else { return null;} 
+    }
 }
+
+
+
+
+
+
+    
+
