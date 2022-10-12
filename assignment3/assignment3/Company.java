@@ -130,7 +130,7 @@ public class Company {
     public Map<String, Integer> mapEachDegree(){
         Map<String, Integer> result = new HashMap<>();
         int numBsc = 0, numMsc = 0, numPhd = 0;
-        String line1="", line2="", line3="";
+        // String line1="", line2="", line3="";
         for( var employee: employees.values()){
             if (employee instanceof Manager){
                 if(Objects.equals(((Manager) employee).getDegree(), "BSc")){
@@ -151,5 +151,35 @@ public class Company {
 
         // return "Academic background of employees: /n " + line1 + "/n" + line2+ "/n" + line3 + "/n";
         return result;
+    }
+
+    public String promoteToManager(String id, String degree){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
+            employees.put(id, manager);
+            return "Employee " + id + " was promoted to manager successfully.";
+        }
+        else { return null;} 
+    }
+
+    public String promoteToIntern(String id, int gpa){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Intern intern = new Intern(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), gpa);
+            employees.put(id, intern);
+            return "Employee " + id + " was promoted to intern successfully.";
+        }
+        else { return null;} 
+    }
+
+    public String promoteToDirector(String id, String degree, String department){
+        if(employees.containsKey(id)){
+            Employee promotedEmployee = employees.get(id);
+            Director director = new Director(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree, department);
+            employees.put(id, director);
+            return "Employee " + id + " was promoted to director successfully.";
+        }
+        else { return null;} 
     }
 }

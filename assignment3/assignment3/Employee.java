@@ -44,6 +44,10 @@ public class Employee {
         return UtilFunc.trunc(salaryGross * 0.9, 2);
     }
 
+    public double getBasicSalary() {
+        return salaryGross;
+    }
+
     @Override
     public String toString() {
         String salaryGrossString = String.format("%.2f", salaryGross);
@@ -63,4 +67,6 @@ public class Employee {
         final Employee other = (Employee) obj;
         return id == other.id;
     }
+
+    
 }
