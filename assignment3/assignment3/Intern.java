@@ -18,6 +18,10 @@ public class Intern extends Employee {
         super.setSalaryGross(UtilFunc.internSalary(basicSalary, gpa));
     }
 
+    public double getBasicSalary() {
+        return basicSalary;
+    }
+
     @Override
     public void setSalaryGross(double salaryGross) {
         basicSalary = salaryGross;

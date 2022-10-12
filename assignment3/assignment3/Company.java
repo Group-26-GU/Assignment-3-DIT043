@@ -158,7 +158,7 @@ public class Company {
             Employee promotedEmployee = employees.get(id);
             Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
             employees.put(id, manager);
-            return "Employee " + id + " was promoted to manager successfully.";
+            return id + " promoted successfully to Manager.";
         }
         else { return null;} 
     }
@@ -168,7 +168,7 @@ public class Company {
             Employee promotedEmployee = employees.get(id);
             Intern intern = new Intern(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), gpa);
             employees.put(id, intern);
-            return "Employee " + id + " was promoted to intern successfully.";
+            return id + " promoted successfully to Intern.";
         }
         else { return null;} 
     }
@@ -178,7 +178,7 @@ public class Company {
             Employee promotedEmployee = employees.get(id);
             Director director = new Director(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree, department);
             employees.put(id, director);
-            return "Employee " + id + " was promoted to director successfully.";
+            return id + " promoted successfully to Director.";
         }
         else { return null;} 
     }
