@@ -4,13 +4,18 @@ public class Employee {
     private final String id;
     private double salaryGross;
 
-    public Employee(String id, String name, double salaryGross) {
+    public Employee(String id, String name, double salaryGross) throws CannotBeBlankException, DefaultException {
         this.id = id;
         this.name = name;
-
-        if (salaryGross < 0) {
-            this.salaryGross = 0;
-        } else {
+        if(name.isBlank()){
+            throw new CannotBeBlankException("Name");
+        }
+        if(id.isBlank()){
+            throw new CannotBeBlankException("ID");
+        }
+        if(salaryGross < 0){
+            throw new DefaultException("Salary must be greater than zero.");
+        } else{
             this.salaryGross = UtilFunc.trunc(salaryGross, 2);
         }
     }
@@ -28,13 +33,16 @@ public class Employee {
         return salaryGross;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws CannotBeBlankException {
+        if(name.isBlank()){
+            throw new CannotBeBlankException("Name");
+        }
         this.name = name;
     }
 
-    public void setSalaryGross(double salaryGross) {
-        if (salaryGross < 0) {
-            this.salaryGross = 0;
+    public void setSalaryGross(double salaryGross) throws DefaultException {
+        if (salaryGross <= 0 && !(this instanceof Intern)) {
+            throw new DefaultException("Salary must be greater than zero.");
         } else {
             this.salaryGross = UtilFunc.trunc(salaryGross, 2);
         }

@@ -23,8 +23,11 @@ public class Intern extends Employee {
     }
 
     @Override
-    public void setSalaryGross(double salaryGross) {
+    public void setSalaryGross(double salaryGross) throws DefaultException {
         basicSalary = salaryGross;
+        if(basicSalary <= 0){
+            throw new DefaultException("Salary must be greater than zero.");
+        }
         super.setSalaryGross(UtilFunc.internSalary(basicSalary, gpa));
     }
 
