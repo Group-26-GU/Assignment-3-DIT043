@@ -5,8 +5,13 @@ public class Director extends Manager {
 
     public Director(String id, String name, double salaryGross, String degree, String department) {
         super(id, name, salaryGross, degree);
-        setSalaryGross(salaryGross);
-        this.department = department;
+        if(!department.isBlank() || department.equals("Business") || department.equals("Human Resources") || department.equals("Technical")){
+            setSalaryGross(salaryGross);
+            this.department = department;
+        }else{
+            throw new DefaultException("Department must be one of the options: Business, Human Resources or Technical.");
+
+        }
     }
 
     public String getDepartment() {

@@ -141,11 +141,15 @@ public class Company {
     public String updateGrossSalary(String id, Double newSalary) throws DefaultException {
         if(employees.containsKey(id)) {
             try {
-                employees.get(id).setSalaryGross(newSalary);
-            } catch (DefaultException e) {
-                throw new DefaultException(e.getMessage());
+                if(newSalary > 0){
+                    employees.get(id).setSalaryGross(newSalary);
+                    return updatedSuccesfully(id);
+                } else{
+                    throw new DefaultException("Salary must be greater than zero.");
+                }
+            } catch (DefaultException exception) {
+                throw new DefaultException(exception.getMessage());
             }
-            return updatedSuccesfully(id);
         } else {
             throw new DefaultException("Employee " + id + " was not registered yet.");
         }
@@ -168,13 +172,17 @@ public class Company {
     public String updateDirectorDept(String id, String newDeparment) throws DefaultException {
         if(employees.containsKey(id)) {
             if (employees.get(id) instanceof Director){
-                ((Director) employees.get(id)).setDepartment(newDeparment);
+               if (!Objects.equals(newDeparment, "") && (newDeparment.equals("Business") || newDeparment.equals("Human Resources") || newDeparment.equals("Technical"))){
+               ((Director) employees.get(id)).setDepartment(newDeparment);
                 return updatedSuccesfully(id);
+                }else{
+                   throw new DefaultException("Department must be one of the options: Business, Human Resources or Technical.");
+               }
             }
-            else return "";
         } else {
             throw new DefaultException("Employee " + id + " was not registered yet.");
         }
+        return "";
     }
 
     public String updateInternGPA( String id, int gpa) throws DefaultException {
