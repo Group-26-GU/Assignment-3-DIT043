@@ -151,17 +151,20 @@ public class Company {
         }
     }
 
-    public String updateManagerDegree(String id, String newDegree) throws DefaultException {
+    public String updateManagerDegree(String id, String newDegree)throws DefaultException{
+        if(newDegree.isBlank() || (!newDegree.equals("BSc") && !newDegree.equals("MSc") && !newDegree.equals("PhD"))){
+            throw new DefaultException("Degree must be one of the options: BSc, MSc or PhD.");
+        }
         if(employees.containsKey(id)) {
             if (employees.get(id) instanceof Manager){
                 ((Manager) employees.get(id)).setDegree(newDegree);
                 return updatedSuccesfully(id);
-            }
-            else return "";
+            } else return "";
         } else {
             throw new DefaultException("Employee " + id + " was not registered yet.");
-        }
+        }      
     }
+
     public String updateDirectorDept(String id, String newDeparment) throws DefaultException {
         if(employees.containsKey(id)) {
             if (employees.get(id) instanceof Director){
@@ -173,6 +176,7 @@ public class Company {
             throw new DefaultException("Employee " + id + " was not registered yet.");
         }
     }
+
     public String updateInternGPA( String id, int gpa) throws DefaultException {
         if(employees.containsKey(id)) {
             if (employees.get(id) instanceof Intern){
@@ -227,14 +231,20 @@ public class Company {
         }
     }
 
-    public String promoteToManager(String id, String degree) throws DefaultException {
-        if(employees.containsKey(id)){
-            Employee promotedEmployee = employees.get(id);
-            Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
-            employees.put(id, manager);
-            return id + " promoted successfully to Manager.";
+    public String promoteToManager(String id, String degree)throws DefaultException{
+        try {   if(employees.containsKey(id)){
+                Employee promotedEmployee = employees.get(id);
+                Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
+                employees.put(id, manager);
+                return id + " promoted successfully to Manager.";
         }
-        else { throw new DefaultException("Employee " + id + " was not registered yet."); }
+        else { throw new DefaultException("Employee " + id + " was not registered yet.");
+        } 
+            
+        } catch (DefaultException e) {
+            throw new DefaultException(e.getMessage());
+        }
+
     }
 
     public String promoteToIntern(String id, int gpa){
