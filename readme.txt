@@ -17,3 +17,5 @@ User stories:
 2.4 - Marcelo
 2.5 - Carlos
 2.6 - Marcelo
+
+Factory Class: *
