@@ -9,11 +9,11 @@ import java.util.Map;
 public class Company {
     private HashMap<String, Employee> employees = new LinkedHashMap<>();
 
-    public String createEmployee(String id, String name, Double salaryGross) throws DefaultException {
+    public String createEmployee(String id, String name, Double salaryGross) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)) {
             throw new DefaultException("Cannot register. ID " + id + " is already registered.");
         } else {
-            employees.put(id, new Employee(id, name, salaryGross));
+            employees.put(id, Factory.createEmployee(id, name, salaryGross) );
 
             return "Employee " + id + " was registered successfully.";
         }
@@ -25,7 +25,7 @@ public class Company {
         if(employees.containsKey(id)) {
             return "Cannot register. ID " + id + " is already registered.";
         } else {
-            employees.put(id, new Manager(id, name, salaryGross, degree));
+            employees.put(id, Factory.createEmployee(id, name, salaryGross, degree));
 
             return "Employee " + id + " was registered successfully.";
         }
@@ -35,7 +35,7 @@ public class Company {
         if(employees.containsKey(id)) {
             return "Cannot register. ID " + id + " is already registered.";
         } else {
-            employees.put(id, new Director(id, name, salaryGross, degree, department));
+            employees.put(id, Factory.createEmployee(id, name, salaryGross, degree, department));
 
             return "Employee " + id + " was registered successfully.";
         }
@@ -76,7 +76,7 @@ public class Company {
                                                         // 1.6 retrieve a string from all employees
     public String printAllEmployees() throws DefaultException{
         if(employees.isEmpty()){
-            throw new NoEmployeesException();
+            throw new DefaultException("No employees registered yet.");
         } else {
             String result = "All registered employees:\n";
             for (var employee : employees.values()) {
@@ -97,7 +97,7 @@ public class Company {
 
     public  double getTotalNetSalary() throws DefaultException{
         if(employees.isEmpty()){
-            throw new NoEmployeesException();
+            throw new DefaultException("No employees registered yet.");
         } else {
             double summ = 0;
             for(var key: employees.keySet()) {
@@ -109,7 +109,7 @@ public class Company {
 
     public String printSortedEmployees() throws DefaultException{
         if(employees.isEmpty()){
-            throw new NoEmployeesException();
+            throw new DefaultException("No employees registered yet.");
         } else {
             String result = "Employees sorted by gross salary (ascending order):\n";
             List<Employee> sortedEmployees = UtilFunc.sortBySalary(new ArrayList<Employee>(employees.values()));
@@ -126,11 +126,7 @@ public class Company {
     }
     public String updateEmployeeName(String id, String newName) throws CannotBeBlankException, DefaultException {
         if(employees.containsKey(id)) {
-            try {
                 employees.get(id).setName(newName);
-            } catch (CannotBeBlankException e) {
-                throw new CannotBeBlankException("Name");
-            }
             return updatedSuccesfully(id);
         } else {
             throw new DefaultException("Employee " + id + " was not registered yet.");
@@ -139,16 +135,12 @@ public class Company {
 
     public String updateGrossSalary(String id, Double newSalary) throws DefaultException {
         if(employees.containsKey(id)) {
-            try {
                 if(newSalary > 0){
                     employees.get(id).setSalaryGross(newSalary);
                     return updatedSuccesfully(id);
                 } else{
                     throw new DefaultException("Salary must be greater than zero.");
                 }
-            } catch (DefaultException exception) {
-                throw new DefaultException(exception.getMessage());
-            }
         } else {
             throw new DefaultException("Employee " + id + " was not registered yet.");
         }
@@ -168,11 +160,11 @@ public class Company {
         }      
     }
 
-    public String updateDirectorDept(String id, String newDeparment) throws DefaultException {
+    public String updateDirectorDept(String id, String newDepartment) throws DefaultException {
         if(employees.containsKey(id)) {
             if (employees.get(id) instanceof Director){
-               if (!Objects.equals(newDeparment, "") && (newDeparment.equals("Business") || newDeparment.equals("Human Resources") || newDeparment.equals("Technical"))){
-               ((Director) employees.get(id)).setDepartment(newDeparment);
+               if (!Objects.equals(newDepartment, "") && (newDepartment.equals("Business") || newDepartment.equals("Human Resources") || newDepartment.equals("Technical"))){
+               ((Director) employees.get(id)).setDepartment(newDepartment);
                 return updatedSuccesfully(id);
                 }else{
                    throw new DefaultException("Department must be one of the options: Business, Human Resources or Technical.");
@@ -210,7 +202,7 @@ public class Company {
 
     public Map<String, Integer> mapEachDegree() throws DefaultException{
         if(employees.isEmpty()){
-            throw new NoEmployeesException();
+            throw new DefaultException("No employees registered yet.");
         } else {
             Map<String, Integer> result = new HashMap<>();
             int numBsc = 0, numMsc = 0, numPhd = 0;
@@ -238,20 +230,16 @@ public class Company {
         }
     }
 
-    public String promoteToManager(String id, String degree)throws DefaultException{
-        try {   if(employees.containsKey(id)){
-                Employee promotedEmployee = employees.get(id);
-                Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
+    public String promoteToManager(String id, String degree) throws DefaultException, CannotBeBlankException {
+
+        if (employees.containsKey(id)) {
+            Employee promotedEmployee = employees.get(id);
+            Manager manager = new Manager(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree);
                 employees.put(id, manager);
                 return id + " promoted successfully to Manager.";
+        } else {
+            throw new DefaultException("Employee " + id + " was not registered yet.");
         }
-        else { throw new DefaultException("Employee " + id + " was not registered yet.");
-        } 
-            
-        } catch (DefaultException e) {
-            throw new DefaultException(e.getMessage());
-        }
-
     }
 
     public String promoteToIntern(String id, int gpa) throws DefaultException, CannotBeBlankException {
