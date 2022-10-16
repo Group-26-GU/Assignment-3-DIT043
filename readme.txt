@@ -18,4 +18,4 @@ User stories:
 2.5 - Carlos
 2.6 - Marcelo
 
-Factory Class: *
+Factory Class: *.teammember
