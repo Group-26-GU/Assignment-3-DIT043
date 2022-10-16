@@ -3,7 +3,7 @@ public class Director extends Manager {
     private String department;
     private final double BONUS = 5000;
 
-    public Director(String id, String name, double salaryGross, String degree, String department) {
+    public Director(String id, String name, double salaryGross, String degree, String department) throws DefaultException, CannotBeBlankException {
         super(id, name, salaryGross, degree);
         if(!department.isBlank() || department.equals("Business") || department.equals("Human Resources") || department.equals("Technical")){
             setSalaryGross(salaryGross);
@@ -23,12 +23,12 @@ public class Director extends Manager {
     }
 
     @Override
-    public void setSalaryGross(double salaryGross) {
+    public void setSalaryGross(double salaryGross) throws DefaultException {
         super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), super.getDegree()) + BONUS, super.getBasicSalary());
     }
 
     @Override
-    public void setDegree(String degree) {
+    public void setDegree(String degree) throws DefaultException {
         super.setDegree(degree);
         super.setSalaryGrossForce(UtilFunc.managerBonus(super.getBasicSalary(), degree) + BONUS, super.getBasicSalary());
     }

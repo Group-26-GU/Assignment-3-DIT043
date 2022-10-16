@@ -21,7 +21,7 @@ public class Company {
 
                                                         // overwritten for subclases
                                                         // Manager
-    public String createEmployee(String id, String name, Double salaryGross, String degree) throws DefaultException {
+    public String createEmployee(String id, String name, Double salaryGross, String degree) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)) {
             return "Cannot register. ID " + id + " is already registered.";
         } else {
@@ -30,9 +30,8 @@ public class Company {
             return "Employee " + id + " was registered successfully.";
         }
     }
-    
                                                             // Director
-    public String createEmployee(String id, String name, Double salaryGross, String degree, String department) throws DefaultException {
+    public String createEmployee(String id, String name, Double salaryGross, String degree, String department) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)) {
             return "Cannot register. ID " + id + " is already registered.";
         } else {
@@ -43,11 +42,11 @@ public class Company {
     }
         
                                                                 // Intern
-    public String createEmployee(String id, String name, Double salaryGross, int gpa) throws DefaultException {
+    public String createEmployee(String id, String name, Double salaryGross, int gpa) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)) {
             return "Cannot register. ID " + id + " is already registered.";
         } else {
-            employees.put(id, new Intern(id, name, salaryGross, gpa));
+            employees.put(id, Factory.createEmployee(id, name, salaryGross, gpa));
 
             return "Employee " + id + " was registered successfully.";
         }
@@ -75,7 +74,7 @@ public class Company {
     }
 
                                                         // 1.6 retrieve a string from all employees
-    public String printAllEmployees() {
+    public String printAllEmployees() throws DefaultException{
         if(employees.isEmpty()){
             throw new NoEmployeesException();
         } else {
@@ -96,7 +95,7 @@ public class Company {
         return summ;
     }
 
-    public  double getTotalNetSalary() {
+    public  double getTotalNetSalary() throws DefaultException{
         if(employees.isEmpty()){
             throw new NoEmployeesException();
         } else {
@@ -108,7 +107,7 @@ public class Company {
         }
     }
 
-    public String printSortedEmployees() {
+    public String printSortedEmployees() throws DefaultException{
         if(employees.isEmpty()){
             throw new NoEmployeesException();
         } else {
@@ -209,7 +208,7 @@ public class Company {
         }
     }
 
-    public Map<String, Integer> mapEachDegree(){
+    public Map<String, Integer> mapEachDegree() throws DefaultException{
         if(employees.isEmpty()){
             throw new NoEmployeesException();
         } else {
@@ -255,7 +254,7 @@ public class Company {
 
     }
 
-    public String promoteToIntern(String id, int gpa){
+    public String promoteToIntern(String id, int gpa) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)){
             Employee promotedEmployee = employees.get(id);
             Intern intern = new Intern(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), gpa);
@@ -265,7 +264,7 @@ public class Company {
         else { throw new DefaultException("Employee " + id + " was not registered yet."); } 
     }
 
-    public String promoteToDirector(String id, String degree, String department){
+    public String promoteToDirector(String id, String degree, String department) throws DefaultException, CannotBeBlankException {
         if(employees.containsKey(id)){
             Employee promotedEmployee = employees.get(id);
             Director director = new Director(promotedEmployee.getId(), promotedEmployee.getName(), promotedEmployee.getBasicSalary(), degree, department);

@@ -1,19 +1,19 @@
 User stories:
-1.1 - A
-1.2 - C
-1.3 - A
-1.4 - M
-1.5 - C
-1.6 - A
-1.7 - A
-1.8 - M
-1.9 - C
-1.10 - C
-1.11 -M
+1.1 - Andrii
+1.2 - Carlos
+1.3 - Andrii
+1.4 - Marcelo
+1.5 - Carlos
+1.6 - Andrii
+1.7 - Andrii
+1.8 - Marcelo
+1.9 - Carlos
+1.10 - Carlos
+1.11 -Marcelo
 
-2.1 - 
-2.2 -
-2.3 -
-2.4 -
-2.5 -
-2.6 -
+2.1 - Carlos,Andrii
+2.2 - Andrii
+2.3 - Andrii
+2.4 - Marcelo
+2.5 - Carlos
+2.6 - Marcelo

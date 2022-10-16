@@ -3,7 +3,7 @@ public class Intern extends Employee {
     private int gpa;
     private double basicSalary;
 
-    public Intern(String id, String name, double salaryGross, int gpa)throws DefaultException {
+    public Intern(String id, String name, double salaryGross, int gpa) throws DefaultException, CannotBeBlankException {
         super(id, name, UtilFunc.internSalary(salaryGross, gpa));
         if(gpa < 1 || gpa > 10){
             throw new DefaultException(gpa + " outside range. Must be between 0-10.");
